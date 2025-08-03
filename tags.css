@@ -1,0 +1,288 @@
+/* Tags Page Specific Styles */
+
+.tags-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+}
+
+.tags-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.tags-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Navigation Buttons */
+.nav-btn {
+    padding: 10px 20px;
+    border: 2px solid var(--border-color);
+    background: transparent;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: var(--glow);
+}
+
+/* Alphabet Navigation */
+.alphabet-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--card-background);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+.alphabet-btn {
+    padding: 8px 12px;
+    border: 2px solid var(--border-color);
+    background: transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    color: var(--text-secondary);
+    min-width: 40px;
+}
+
+.alphabet-btn:hover,
+.alphabet-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--glow);
+}
+
+/* Tags Grid */
+.tags-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.tag-card {
+    background: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    flex: 0 0 auto;
+    min-width: 150px;
+    max-width: 250px;
+    width: auto;
+}
+
+.tag-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 0%, rgba(214, 51, 132, 0.1) 50%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.tag-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary-color);
+}
+
+.tag-card:hover::before {
+    opacity: 1;
+}
+
+.tag-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+}
+
+.tag-count {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tag-count i {
+    color: var(--primary-color);
+}
+
+/* Letter Sections */
+.letter-section {
+    margin-bottom: 3rem;
+}
+
+.letter-header {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.letter-header::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--primary-color), transparent);
+}
+
+/* Search Results */
+.search-results {
+    margin-bottom: 2rem;
+}
+
+.search-info {
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tags-grid {
+        gap: 0.8rem;
+    }
+    
+    .tag-card {
+        min-width: 120px;
+        max-width: 200px;
+    }
+    
+    .alphabet-nav {
+        gap: 0.3rem;
+        padding: 0.8rem;
+    }
+    
+    .alphabet-btn {
+        padding: 6px 10px;
+        min-width: 35px;
+        font-size: 0.9rem;
+    }
+    
+    .tags-header h2 {
+        font-size: 2rem;
+    }
+    
+    .nav-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tag-card {
+        min-width: 100px;
+        max-width: 150px;
+        padding: 0.8rem;
+    }
+    
+    .tag-name {
+        font-size: 1rem;
+    }
+    
+    .alphabet-nav {
+        gap: 0.2rem;
+    }
+    
+    .alphabet-btn {
+        padding: 5px 8px;
+        min-width: 30px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Animation for tag cards */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tag-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.tag-card:nth-child(1) { animation-delay: 0.1s; }
+.tag-card:nth-child(2) { animation-delay: 0.2s; }
+.tag-card:nth-child(3) { animation-delay: 0.3s; }
+.tag-card:nth-child(4) { animation-delay: 0.4s; }
+.tag-card:nth-child(5) { animation-delay: 0.5s; }
+.tag-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* Hide tags by default until loaded */
+.tag-card.hidden {
+    display: none;
+}
+
+/* Sultry hover effects */
+.tag-card:hover .tag-name {
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(214, 51, 132, 0.5);
+}
+
+/* Special styling for popular tags */
+.tag-card.popular {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--card-background), rgba(214, 51, 132, 0.05));
+}
+
+.tag-card.popular .tag-name {
+    color: var(--primary-color);
+}
+
+.tag-card.popular::after {
+    content: '🔥';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.2rem;
+} 

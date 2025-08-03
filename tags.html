@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EWH*RES - Browse Tags</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tags.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>EWH*RES</h1>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search tags..." id="tagSearch">
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i>
+                    Gallery
+                </button>
+                <button class="nav-btn active">
+                    <i class="fas fa-tags"></i>
+                    Tags
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="tags-header">
+            <h2>Browse All Tags</h2>
+            <p>Click any tag to explore content</p>
+        </div>
+
+        <!-- Alphabet Navigation -->
+        <div class="alphabet-nav">
+            <button class="alphabet-btn active" data-letter="all">All</button>
+            <button class="alphabet-btn" data-letter="A">A</button>
+            <button class="alphabet-btn" data-letter="B">B</button>
+            <button class="alphabet-btn" data-letter="C">C</button>
+            <button class="alphabet-btn" data-letter="D">D</button>
+            <button class="alphabet-btn" data-letter="E">E</button>
+            <button class="alphabet-btn" data-letter="F">F</button>
+            <button class="alphabet-btn" data-letter="G">G</button>
+            <button class="alphabet-btn" data-letter="H">H</button>
+            <button class="alphabet-btn" data-letter="I">I</button>
+            <button class="alphabet-btn" data-letter="J">J</button>
+            <button class="alphabet-btn" data-letter="K">K</button>
+            <button class="alphabet-btn" data-letter="L">L</button>
+            <button class="alphabet-btn" data-letter="M">M</button>
+            <button class="alphabet-btn" data-letter="N">N</button>
+            <button class="alphabet-btn" data-letter="O">O</button>
+            <button class="alphabet-btn" data-letter="P">P</button>
+            <button class="alphabet-btn" data-letter="Q">Q</button>
+            <button class="alphabet-btn" data-letter="R">R</button>
+            <button class="alphabet-btn" data-letter="S">S</button>
+            <button class="alphabet-btn" data-letter="T">T</button>
+            <button class="alphabet-btn" data-letter="U">U</button>
+            <button class="alphabet-btn" data-letter="V">V</button>
+            <button class="alphabet-btn" data-letter="W">W</button>
+            <button class="alphabet-btn" data-letter="X">X</button>
+            <button class="alphabet-btn" data-letter="Y">Y</button>
+            <button class="alphabet-btn" data-letter="Z">Z</button>
+            <button class="alphabet-btn" data-letter="0-9">#</button>
+        </div>
+
+        <!-- Tags Grid -->
+        <div class="tags-grid" id="tagsGrid">
+            <!-- Tags will be dynamically loaded here -->
+        </div>
+    </main>
+
+    <script src="tags.js"></script>
+</body>
+</html> 

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EWH*RES</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>EWH*RES</h1>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search for desire..." id="searchInput">
+                </div>
+                <div class="search-dropdown">
+                    <select id="tagFilter">
+                        <option value="all">All Tags</option>
+                        <option value="anal">Anal</option>
+                        <option value="big tits">Big Tits</option>
+                        <option value="blonde">Blonde</option>
+                        <option value="brunette">Brunette</option>
+                        <option value="busty">Busty</option>
+                        <option value="college">College</option>
+                        <option value="creampie">Creampie</option>
+                        <option value="lesbian">Lesbian</option>
+                        <option value="milf">MILF</option>
+                        <option value="pov">POV</option>
+                        <option value="teen">Teen</option>
+                        <option value="threesome">Threesome</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="window.location.href='tags.html'">
+                    <i class="fas fa-tags"></i>
+                    Browse Tags
+                </button>
+                <button class="upload-btn" id="uploadBtn">
+                    <i class="fas fa-plus"></i>
+                    Upload
+                </button>
+                <button class="profile-btn">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="masonry-grid" id="imageGrid">
+            <!-- Images will be dynamically loaded here -->
+        </div>
+    </main>
+
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upload Your Image</h2>
+                <button class="close-btn" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag & drop your image here or click to browse</p>
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                </div>
+                <div class="upload-form" id="uploadForm" style="display: none;">
+                    <img id="previewImage" alt="Preview">
+                    <div class="form-fields">
+                        <input type="text" id="imageTitle" placeholder="Add a title...">
+                        <textarea id="imageDescription" placeholder="Tell everyone what your image is about..."></textarea>
+                        <select id="imageCategory">
+                            <option value="fashion">Fashion</option>
+                            <option value="beauty">Beauty</option>
+                            <option value="lifestyle">Lifestyle</option>
+                            <option value="wellness">Wellness</option>
+                            <option value="art">Art</option>
+                            <option value="travel">Travel</option>
+                            <option value="food">Food</option>
+                        </select>
+                        <select id="imageTags" multiple>
+                            <option value="3d">3D</option>
+                            <option value="anal">Anal</option>
+                            <option value="anime">Anime</option>
+                            <option value="babe">Babe</option>
+                            <option value="big tits">Big Tits</option>
+                            <option value="blonde">Blonde</option>
+                            <option value="brunette">Brunette</option>
+                            <option value="busty">Busty</option>
+                            <option value="college">College</option>
+                            <option value="couple">Couple</option>
+                            <option value="creampie">Creampie</option>
+                            <option value="cumshot">Cumshot</option>
+                            <option value="fetish">Fetish</option>
+                            <option value="hardcore">Hardcore</option>
+                            <option value="lesbian">Lesbian</option>
+                            <option value="milf">MILF</option>
+                            <option value="oral">Oral</option>
+                            <option value="pov">POV</option>
+                            <option value="pussy">Pussy</option>
+                            <option value="redhead">Redhead</option>
+                            <option value="solo">Solo</option>
+                            <option value="teen">Teen</option>
+                            <option value="threesome">Threesome</option>
+                            <option value="toys">Toys</option>
+                        </select>
+                        <button type="button" id="publishBtn" class="publish-btn">Publish</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Detail Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content image-detail">
+            <button class="close-btn" id="closeImageModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="image-detail-content">
+                <div class="image-container">
+                    <img id="modalImage" alt="Image">
+                </div>
+                <div class="image-info">
+                    <h3 id="modalTitle"></h3>
+                    <p id="modalDescription"></p>
+                    <div class="image-actions">
+                        <button class="action-btn like-btn">
+                            <i class="fas fa-heart"></i>
+                            <span class="like-count">0</span>
+                        </button>
+                        <button class="action-btn save-btn">
+                            <i class="fas fa-bookmark"></i>
+                            Save
+                        </button>
+                        <button class="action-btn share-btn">
+                            <i class="fas fa-share"></i>
+                            Share
+                        </button>
+                    </div>
+                    <div class="category-tag" id="modalCategory"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
