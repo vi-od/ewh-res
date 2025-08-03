@@ -1,5 +1,6 @@
 // Authentication page functionality
 let currentUser = null;
+let isRedirecting = false;
 
 // DOM elements
 const loginForm = document.getElementById('loginForm');
@@ -70,7 +71,10 @@ async function handleLogin(e) {
         
         // Redirect to main page after successful login
         setTimeout(() => {
-            window.location.replace('index.html');
+            if (!isRedirecting) {
+                isRedirecting = true;
+                window.location.replace('index.html');
+            }
         }, 1500);
         
     } catch (error) {
@@ -120,7 +124,10 @@ async function handleSignup(e) {
         
         // Redirect to main page after successful signup
         setTimeout(() => {
-            window.location.replace('index.html');
+            if (!isRedirecting) {
+                isRedirecting = true;
+                window.location.replace('index.html');
+            }
         }, 1500);
         
     } catch (error) {
@@ -157,8 +164,9 @@ async function checkAuthStatus() {
     
     try {
         currentUser = await authService.getCurrentUser();
-        if (currentUser) {
+        if (currentUser && !isRedirecting) {
             // User is already logged in, redirect to main page
+            isRedirecting = true;
             console.log('✅ User already authenticated on auth page, redirecting to main page');
             window.location.replace('index.html');
         }

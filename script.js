@@ -5,6 +5,7 @@ let currentFilter = 'all';
 let currentTagFilter = 'all';
 let searchQuery = '';
 let currentUser = null;
+let isRedirecting = false;
 
 // DOM elements
 const imageGrid = document.getElementById('imageGrid');
@@ -25,12 +26,28 @@ const loading = document.getElementById('loading');
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    checkAuthAndInit();
+    // Only check auth if we're on the main page (index.html)
+    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+        checkAuthAndInit();
+    }
 });
 
 // Check authentication and initialize
 async function checkAuthAndInit() {
     console.log('checkAuthAndInit called on:', window.location.pathname);
+    
+    // Double check we're on the right page
+    if (window.location.pathname.includes('auth.html')) {
+        console.log('❌ Script.js loaded on auth page - this should not happen');
+        return;
+    }
+    
+    // Check if authService is available
+    if (typeof authService === 'undefined') {
+        console.log('❌ authService not available, redirecting to auth page');
+        window.location.replace('auth.html');
+        return;
+    }
     
     try {
         currentUser = await authService.getCurrentUser();
@@ -53,12 +70,10 @@ async function checkAuthAndInit() {
         
     } catch (error) {
         console.log('❌ User not authenticated:', error.message);
-        // Only redirect if we're not already on the auth page
-        if (!window.location.pathname.includes('auth.html')) {
+        if (!isRedirecting) {
+            isRedirecting = true;
             console.log('🔄 Redirecting to auth page...');
             window.location.replace('auth.html');
-        } else {
-            console.log('✋ Already on auth page, staying put');
         }
     }
 }
