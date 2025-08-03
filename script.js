@@ -30,17 +30,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Check authentication and initialize
 async function checkAuthAndInit() {
+    console.log('checkAuthAndInit called on:', window.location.pathname);
+    
     try {
         currentUser = await authService.getCurrentUser();
-        console.log('Current user:', currentUser);
+        console.log('✅ User authenticated:', currentUser);
         
-        // Update UI based on auth status
+        // User is authenticated, proceed with initialization
         updateAuthUI();
-        
-        // Load real images from database
         await loadImages();
-        
-        // Initialize the rest of the app
         setupEventListeners();
         
         // Check if we came from tags page with a specific tag
@@ -54,9 +52,14 @@ async function checkAuthAndInit() {
         }
         
     } catch (error) {
-        console.log('User not authenticated, redirecting to login');
-        // Redirect to auth page if not logged in
-        window.location.href = 'auth.html';
+        console.log('❌ User not authenticated:', error.message);
+        // Only redirect if we're not already on the auth page
+        if (!window.location.pathname.includes('auth.html')) {
+            console.log('🔄 Redirecting to auth page...');
+            window.location.replace('auth.html');
+        } else {
+            console.log('✋ Already on auth page, staying put');
+        }
     }
 }
 
@@ -107,23 +110,42 @@ function showNoImagesMessage() {
 function updateAuthUI() {
     const uploadBtn = document.getElementById('uploadBtn');
     const profileBtn = document.querySelector('.profile-btn');
+    const logoutBtn = document.querySelector('.logout-btn');
     
     if (currentUser) {
         // User is logged in
         uploadBtn.style.display = 'flex';
         profileBtn.innerHTML = `<i class="fas fa-user"></i>`;
         profileBtn.onclick = () => showProfileModal();
+        logoutBtn.style.display = 'flex';
     } else {
         // User not logged in
         uploadBtn.style.display = 'none';
         profileBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i>`;
         profileBtn.onclick = () => window.location.href = 'auth.html';
+        logoutBtn.style.display = 'none';
     }
 }
 
 // Show profile modal (placeholder for now)
 function showProfileModal() {
     alert('Profile page coming soon!');
+}
+
+// Handle logout
+async function handleLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+        try {
+            await authService.signOut();
+            console.log('User logged out');
+            // Redirect to auth page
+            window.location.replace('auth.html');
+        } catch (error) {
+            console.error('Logout error:', error);
+            // Force redirect anyway
+            window.location.replace('auth.html');
+        }
+    }
 }
 
 // Render images in the masonry grid

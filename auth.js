@@ -70,7 +70,7 @@ async function handleLogin(e) {
         
         // Redirect to main page after successful login
         setTimeout(() => {
-            window.location.href = 'index.html';
+            window.location.replace('index.html');
         }, 1500);
         
     } catch (error) {
@@ -120,7 +120,7 @@ async function handleSignup(e) {
         
         // Redirect to main page after successful signup
         setTimeout(() => {
-            window.location.href = 'index.html';
+            window.location.replace('index.html');
         }, 1500);
         
     } catch (error) {
@@ -153,15 +153,18 @@ async function createUserProfile(userId, name, email) {
 
 // Check authentication status
 async function checkAuthStatus() {
+    console.log('🔍 checkAuthStatus called on:', window.location.pathname);
+    
     try {
         currentUser = await authService.getCurrentUser();
         if (currentUser) {
             // User is already logged in, redirect to main page
-            window.location.href = 'index.html';
+            console.log('✅ User already authenticated on auth page, redirecting to main page');
+            window.location.replace('index.html');
         }
     } catch (error) {
         // User not logged in, stay on auth page
-        console.log('User not authenticated');
+        console.log('❌ User not authenticated, staying on auth page');
     }
 }
 
