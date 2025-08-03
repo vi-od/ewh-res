@@ -9,7 +9,7 @@ const client = new Appwrite.Client();
 
 client
     .setEndpoint('https://nyc.cloud.appwrite.io/v1') // Your Appwrite Endpoint
-    .setProject('688f832100234b0c02bc'); // Your project ID
+    .setProject('688f90c500187dd543d1'); // Your project ID
 
 // Initialize Appwrite services
 const account = new Appwrite.Account(client);
