@@ -119,6 +119,38 @@ const databaseService = {
         }
     },
 
+    // Create user profile
+    async createUserProfile(profileData) {
+        try {
+            const document = await databases.createDocument(
+                DATABASE_ID,
+                USERS_COLLECTION_ID,
+                Appwrite.ID.unique(),
+                profileData
+            );
+            console.log('User profile created:', document);
+            return document;
+        } catch (error) {
+            console.error('Create user profile error:', error);
+            throw error;
+        }
+    },
+
+    // Get user profile
+    async getUserProfile(userId) {
+        try {
+            const documents = await databases.listDocuments(
+                DATABASE_ID,
+                USERS_COLLECTION_ID,
+                []
+            );
+            return documents.documents[0] || null;
+        } catch (error) {
+            console.error('Get user profile error:', error);
+            throw error;
+        }
+    },
+
     // Like/unlike image
     async toggleLike(imageId, userId) {
         try {

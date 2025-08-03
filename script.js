@@ -4,6 +4,7 @@ let images = [];
 let currentFilter = 'all';
 let currentTagFilter = 'all';
 let searchQuery = '';
+let currentUser = null;
 
 // DOM elements
 const imageGrid = document.getElementById('imageGrid');
@@ -24,25 +25,106 @@ const loading = document.getElementById('loading');
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    renderImages();
-    setupEventListeners();
-    
-    // Check if we came from tags page with a specific tag
-    const urlParams = new URLSearchParams(window.location.search);
-    const selectedTag = urlParams.get('tag');
-    if (selectedTag) {
-        currentTagFilter = selectedTag;
-        const tagDropdown = document.getElementById('tagFilter');
-        // If the tag exists in dropdown, select it
-        for (let option of tagDropdown.options) {
-            if (option.value === selectedTag) {
-                option.selected = true;
-                break;
-            }
-        }
-        renderImages();
-    }
+    checkAuthAndInit();
 });
+
+// Check authentication and initialize
+async function checkAuthAndInit() {
+    try {
+        currentUser = await authService.getCurrentUser();
+        console.log('Current user:', currentUser);
+        
+        // Update UI based on auth status
+        updateAuthUI();
+        
+        // Load real images from database
+        await loadImages();
+        
+        // Initialize the rest of the app
+        setupEventListeners();
+        
+        // Check if we came from tags page with a specific tag
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedTag = urlParams.get('tag');
+        if (selectedTag) {
+            currentTagFilter = selectedTag;
+            renderImages();
+        } else {
+            renderImages();
+        }
+        
+    } catch (error) {
+        console.log('User not authenticated, redirecting to login');
+        // Redirect to auth page if not logged in
+        window.location.href = 'auth.html';
+    }
+}
+
+// Load images from Appwrite database
+async function loadImages() {
+    try {
+        showLoading();
+        const dbImages = await databaseService.getImages();
+        
+        // Transform database images to match expected format
+        images = dbImages.map(img => ({
+            id: img.$id,
+            src: storageService.getImagePreview(img.fileId),
+            title: img.title,
+            description: img.description,
+            category: img.category,
+            tags: img.tags ? img.tags.split(',') : [],
+            likes: img.likes || 0,
+            liked: false, // TODO: Check if current user liked this
+            userId: img.userId
+        }));
+        
+        console.log('Loaded images:', images.length);
+        hideLoading();
+    } catch (error) {
+        console.error('Error loading images:', error);
+        hideLoading();
+        // Show empty state or error message
+        showNoImagesMessage();
+    }
+}
+
+// Show message when no images are available
+function showNoImagesMessage() {
+    imageGrid.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
+            <i class="fas fa-images" style="font-size: 4rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">No Images Yet</h3>
+            <p style="color: var(--text-secondary);">Be the first to share something amazing!</p>
+            <button onclick="document.getElementById('uploadBtn').click()" style="margin-top: 1rem; padding: 12px 24px; background: var(--primary-color); color: white; border: none; border-radius: 12px; cursor: pointer;">
+                Upload First Image
+            </button>
+        </div>
+    `;
+}
+
+// Update UI based on authentication status
+function updateAuthUI() {
+    const uploadBtn = document.getElementById('uploadBtn');
+    const profileBtn = document.querySelector('.profile-btn');
+    
+    if (currentUser) {
+        // User is logged in
+        uploadBtn.style.display = 'flex';
+        profileBtn.innerHTML = `<i class="fas fa-user"></i>`;
+        profileBtn.onclick = () => showProfileModal();
+    } else {
+        // User not logged in
+        uploadBtn.style.display = 'none';
+        profileBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i>`;
+        profileBtn.onclick = () => window.location.href = 'auth.html';
+    }
+}
+
+// Show profile modal (placeholder for now)
+function showProfileModal() {
+    alert('Profile page coming soon!');
+}
 
 // Render images in the masonry grid
 function renderImages() {
