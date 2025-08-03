@@ -1,29 +1,33 @@
-import { Client, Account, Databases, Storage, ID } from 'appwrite';
+// Appwrite will be loaded via CDN script tag
+// Check if Appwrite is available
+if (typeof Appwrite === 'undefined') {
+    console.error('Appwrite SDK not loaded. Make sure to include the CDN script.');
+}
 
 // Appwrite configuration
-const client = new Client();
+const client = new Appwrite.Client();
 
 client
     .setEndpoint('https://nyc.cloud.appwrite.io/v1') // Your Appwrite Endpoint
     .setProject('688f832100234b0c02bc'); // Your project ID
 
 // Initialize Appwrite services
-export const account = new Account(client);
-export const databases = new Databases(client);
-export const storage = new Storage(client);
+const account = new Appwrite.Account(client);
+const databases = new Appwrite.Databases(client);
+const storage = new Appwrite.Storage(client);
 
 // Database and Collection IDs (you'll need to create these in Appwrite console)
-export const DATABASE_ID = 'ewhores-db';
-export const IMAGES_COLLECTION_ID = 'images';
-export const USERS_COLLECTION_ID = 'users';
-export const STORAGE_BUCKET_ID = 'images-bucket';
+const DATABASE_ID = 'ewhores-db';
+const IMAGES_COLLECTION_ID = 'images';
+const USERS_COLLECTION_ID = 'users';
+const STORAGE_BUCKET_ID = 'images-bucket';
 
 // Authentication functions
-export const authService = {
+const authService = {
     // Sign up new user
     async signUp(email, password, name) {
         try {
-            const user = await account.create(ID.unique(), email, password, name);
+            const user = await account.create(Appwrite.ID.unique(), email, password, name);
             console.log('User created:', user);
             return user;
         } catch (error) {
@@ -68,14 +72,14 @@ export const authService = {
 };
 
 // Database functions
-export const databaseService = {
+const databaseService = {
     // Create image document
     async createImage(imageData) {
         try {
             const document = await databases.createDocument(
                 DATABASE_ID,
                 IMAGES_COLLECTION_ID,
-                ID.unique(),
+                Appwrite.ID.unique(),
                 imageData
             );
             console.log('Image created:', document);
@@ -144,13 +148,13 @@ export const databaseService = {
 };
 
 // Storage functions
-export const storageService = {
+const storageService = {
     // Upload image file
     async uploadImage(file) {
         try {
             const fileData = await storage.createFile(
                 STORAGE_BUCKET_ID,
-                ID.unique(),
+                Appwrite.ID.unique(),
                 file
             );
             console.log('File uploaded:', fileData);
@@ -184,7 +188,7 @@ export const storageService = {
 };
 
 // Test connection function
-export async function testConnection() {
+async function testConnection() {
     try {
         const user = await authService.getCurrentUser();
         console.log('Appwrite connection successful!', user ? 'User logged in' : 'No user logged in');
@@ -193,4 +197,14 @@ export async function testConnection() {
         console.error('Appwrite connection failed:', error);
         return false;
     }
-} 
+}
+
+// Make functions globally available
+window.authService = authService;
+window.databaseService = databaseService;
+window.storageService = storageService;
+window.testConnection = testConnection;
+window.DATABASE_ID = DATABASE_ID;
+window.IMAGES_COLLECTION_ID = IMAGES_COLLECTION_ID;
+window.USERS_COLLECTION_ID = USERS_COLLECTION_ID;
+window.STORAGE_BUCKET_ID = STORAGE_BUCKET_ID; 
